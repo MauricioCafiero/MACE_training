@@ -6,8 +6,6 @@ import sys
 import logging
 import glob
 import os
-from ase.io import read, write
-from ase import units
 from ase.md.langevin import Langevin
 from ase.md.velocitydistribution import Stationary, ZeroRotation, MaxwellBoltzmannDistribution
 from aseMolec import extAtoms as ea
@@ -17,14 +15,11 @@ import numpy as np
 import pylab as pl
 from IPython import display
 from mace.calculators import MACECalculator
-from x3dase.visualize import view_x3d_n
-from tqdm import tqdm
 from xtb.ase.calculator import XTB
 from matplotlib import pyplot as plt
 from tqdm import tqdm
 from ase import units
 import random
-import time
 from xtb.ase.calculator import XTB
 from mace.calculators import mace_mp
 import py3Dmol
@@ -35,6 +30,9 @@ def train_mace(config_file_path):
     mace_run_train_main()
 
 def simpleMD(init_conf, temp, calc, fname, s, T):
+    '''
+    Runs a simple molecular dynamics simulation.
+    '''
     init_conf.set_calculator(calc)
 
     #initialize the temperature
@@ -45,7 +43,7 @@ def simpleMD(init_conf, temp, calc, fname, s, T):
 
     dyn = Langevin(init_conf, 1.0*units.fs, temperature_K=temp, friction=0.1) #drive system to desired temperature
 
-    %matplotlib inline
+    #%matplotlib inline
 
     time_fs = []
     temperature = []
@@ -83,6 +81,9 @@ def simpleMD(init_conf, temp, calc, fname, s, T):
     print("MD finished in {0:.2f} minutes!".format((t1-t0)/60))
 
 def view_traj(filepath: str):
+    '''
+    Receives a filepath to an xyz trajectory file and visualizes it with py3Dmol.
+    '''
     f = open(filepath, "r")
     lines = f.readlines()
     f.close()
@@ -96,13 +97,17 @@ def view_traj(filepath: str):
     viewer.show()
 
 def make_train_file(filename: str, ft: bool = False, max_L: int = 0, 
-                    r_max: float = 4.0, model_name: str = "mace_model", 
+                    r_max: float = 4.0, name: str = "mace_model", 
                     max_num_epochs: int = 300, batch_size: int = 10,
                     swa: bool = True, energy_key: str = 'energy_xtb',
-                    forces_key: str = 'forces_xtb', train_file_path: str = "data/train_file.xyz",
-                    val_file_path: str = "data/val_file.xyz", test_file_path: str = "data/test_file.xyz",
-                    valid_fraction: float = 0.1):
+                    forces_key: str = 'forces_xtb', train_file: str = "data/train_file.xyz",
+                    valid_file: str = "data/val_file.xyz", test_file: str = "data/test_file.xyz",
+                    valid_fraction: float = 0.1, seed: int = 42, stress_weight: float = 0.0,
+                    energy_weight: float = 1.0, forces_weight: float = 10.0, foundation_model: str = 'small',
+                    num_samples_pt: int = 300):
     '''
+    Creates a yaml file for training a MACE model. If ft is True, creates a yaml file for fine-tuning a MACE model. 
+    Otherwise, creates a yaml file for training a MACE model from scratch.
     '''
     if ft:
         f = open('data/ft_template.yml', 'r')
@@ -111,8 +116,14 @@ def make_train_file(filename: str, ft: bool = False, max_L: int = 0,
     template = f.readlines()
     f.close()   
 
-    variables = [max_L, r_max, model_name, max_num_epochs, batch_size, swa, energy_key, forces_key, train_file_path, val_file_path, test_file_path, valid_fraction]
-    variable_names = ['max_L', 'r_max', 'model_name', 'max_num_epochs', 'batch_size', 'swa', 'energy_key', 'forces_key', 'train_file_path', 'val_file_path', 'test_file_path', 'valid_fraction']
+    variables = [max_L, r_max, name, max_num_epochs, batch_size, swa, energy_key, forces_key, train_file, 
+                 valid_file, test_file, valid_fraction, seed, stress_weight, energy_weight, forces_weight,
+                 foundation_model, num_samples_pt]
+    
+    variable_names = ['max_L', 'r_max', 'name', 'max_num_epochs', 'batch_size', 'swa', 'energy_key', 'forces_key', 
+                      'train_file', 'valid_file', 'test_file', 'valid_fraction', 'seed', 'stress_weight', 
+                      'energy_weight', 'forces_weight', 'foundation_model', 'num_samples_pt']
+
     for name in variable_names:
         for line in template:
             if name in line:
