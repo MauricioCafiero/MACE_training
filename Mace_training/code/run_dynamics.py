@@ -48,7 +48,7 @@ def run_dynamics(
     # Set up the UMA calculator from Fairchem
     # Uses HuggingFace API token from environment
     device = "cuda" if torch.cuda.is_available() else "cpu"
-    predictor = pretrained_mlip.get_predict_unit("uma-s-1", device=device)
+    predictor = pretrained_mlip.get_predict_unit("uma-s-1p2", device=device)
     calculator = FAIRChemCalculator(predictor, task_name="omol")
     atoms.calc = calculator
 

@@ -1,5 +1,8 @@
-Error: Python argument types in
-    rdkit.Chem.rdDistGeom.EmbedMolecule(Mol, EmbedParameters)
-did not match C++ signature:
-    EmbedMolecule(class RDKit::ROMol {lvalue} mol, struct RDKit::DGeomHelpers::EmbedParameters {lvalue} params)
-    EmbedMolecule(class RDKit::ROMol {lvalue} mol, unsigned int maxAttempts=0, int randomSeed=-1, bool clearConfs=True, bool useRandomCoords=False, double boxSizeMult=2.0, bool randNegEig=True, unsigned int numZeroFail=1, class boost::python::dict {lvalue} coordMap={}, double forceTol=0.001, bool ignoreSmoothingFailures=False, bool enforceChirality=True, bool useExpTorsionAnglePrefs=True, bool useBasicKnowledge=True, bool printExpTorsionAngles=False, bool useSmallRingTorsions=False, bool useMacrocycleTorsions=True, unsigned int ETversion=2, bool useMacrocycle14config=True)
+WARNING:root:task_name='omol' detected, but charge is not set in atoms.info. Defaulting to charge=0. Ensure charge is an integer representing the total charge on the system and is within the range -100 to 100.
+WARNING:root:task_name='omol' detected, but spin multiplicity is not set in atoms.info. Defaulting to spin=1. Ensure spin is an integer representing the spin multiplicity from 0 to 100.
+Initial energy: -4218.4497 eV
+/usr/local/python/3.12.1/lib/python3.12/site-packages/ase/md/langevin.py:110: FutureWarning: The implementation of `fixcm=True` in `Langevin` does not strictly sample the correct NVT distributions. The deviations are typically small for large systems but can be more pronounced for small systems. Use `fixcm=False` together with `ase.constraints.FixCom`. `fixcm` is deprecated since ASE 3.28.0 and will be removed in a future release.
+  warnings.warn(msg, FutureWarning)
+Running langevin MD for 5 steps at 300.0K
+Timestep: 1.0 fs
+Error: The truth value of an array with more than one element is ambiguous. Use a.any() or a.all()
