@@ -1,0 +1,5 @@
+Error: Python argument types in
+    rdkit.Chem.rdDistGeom.EmbedMolecule(Mol, EmbedParameters)
+did not match C++ signature:
+    EmbedMolecule(class RDKit::ROMol {lvalue} mol, struct RDKit::DGeomHelpers::EmbedParameters {lvalue} params)
+    EmbedMolecule(class RDKit::ROMol {lvalue} mol, unsigned int maxAttempts=0, int randomSeed=-1, bool clearConfs=True, bool useRandomCoords=False, double boxSizeMult=2.0, bool randNegEig=True, unsigned int numZeroFail=1, class boost::python::dict {lvalue} coordMap={}, double forceTol=0.001, bool ignoreSmoothingFailures=False, bool enforceChirality=True, bool useExpTorsionAnglePrefs=True, bool useBasicKnowledge=True, bool printExpTorsionAngles=False, bool useSmallRingTorsions=False, bool useMacrocycleTorsions=True, unsigned int ETversion=2, bool useMacrocycle14config=True)
