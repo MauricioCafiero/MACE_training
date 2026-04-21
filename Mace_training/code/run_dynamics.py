@@ -106,14 +106,13 @@ def run_dynamics(
     output = Path(output_xyz)
     output.parent.mkdir(parents=True, exist_ok=True)
 
-    # Write as extended XYZ with forces as additional columns
-    # ASE's write will include forces if present in atoms.arrays
-    for i, frame in enumerate(trajectory):
-        frame.arrays['fx'] = frame.arrays['forces'][:, 0]
-        frame.arrays['fy'] = frame.arrays['forces'][:, 1]
-        frame.arrays['fz'] = frame.arrays['forces'][:, 2]
+    # Write as extended XYZ with positions and forces only
+    for frame in trajectory:
+        # Remove momentum array to keep output clean
+        if 'momenta' in frame.arrays:
+            del frame.arrays['momenta']
 
-    # Write all frames
+    # Write all frames - forces array will be written as fx, fy, fz columns
     write(output_xyz, trajectory, format='extxyz')
 
     print(f"Trajectory written to: {output_xyz}")
