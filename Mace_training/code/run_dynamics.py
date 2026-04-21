@@ -9,6 +9,7 @@ runs MD simulation, and writes a trajectory XYZ file with gradients included.
 import argparse
 import os
 import sys
+import traceback
 from pathlib import Path
 
 import numpy as np
@@ -179,6 +180,7 @@ def main():
         )
     except Exception as e:
         print(f"Error: {e}", file=sys.stderr)
+        traceback.print_exc()
         sys.exit(1)
 
 
