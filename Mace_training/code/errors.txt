@@ -5,3 +5,31 @@ Initial energy: -4218.4497 eV
 Running langevin MD for 5 steps at 300.0K
 Timestep: 1.0 fs
 Error: The truth value of an array with more than one element is ambiguous. Use a.any() or a.all()
+Traceback (most recent call last):
+  File "/workspaces/MACE_training/Mace_training/code/run_dynamics.py", line 173, in main
+    run_dynamics(
+  File "/workspaces/MACE_training/Mace_training/code/run_dynamics.py", line 103, in run_dynamics
+    dyn.run(steps)
+  File "/usr/local/python/3.12.1/lib/python3.12/site-packages/ase/md/md.py", line 196, in run
+    for converged in self.irun(steps=steps):
+  File "/usr/local/python/3.12.1/lib/python3.12/site-packages/ase/md/md.py", line 171, in irun
+    self.step()
+  File "/usr/local/python/3.12.1/lib/python3.12/site-packages/ase/md/langevin.py", line 163, in step
+    forces = atoms.get_forces(md=True)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/python/3.12.1/lib/python3.12/site-packages/ase/atoms.py", line 2008, in get_forces
+    forces = self._calc.get_forces(self)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/python/3.12.1/lib/python3.12/site-packages/ase/calculators/abc.py", line 33, in get_forces
+    return self.get_property('forces', atoms)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/python/3.12.1/lib/python3.12/site-packages/fairchem/core/calculate/ase_calculator.py", line 186, in get_property
+    result = super().get_property(
+             ^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/python/3.12.1/lib/python3.12/site-packages/ase/calculators/calculator.py", line 507, in get_property
+    system_changes = self.check_state(atoms)
+                     ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/python/3.12.1/lib/python3.12/site-packages/fairchem/core/calculate/ase_calculator.py", line 180, in check_state
+    if (not state) and (self.atoms.info != atoms.info):
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ValueError: The truth value of an array with more than one element is ambiguous. Use a.any() or a.all()
