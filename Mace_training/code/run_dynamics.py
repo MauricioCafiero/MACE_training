@@ -70,7 +70,9 @@ def run_dynamics(
         # Velocity Verlet for NVE ensemble
         dyn = VelocityVerlet(atoms, timestep=timestep_seconds)
         # Set initial velocities if needed
-        if atoms.get_kinetic_energy() == 0:
+        import numpy as np
+        ke = atoms.get_kinetic_energy()
+        if np.allclose(ke, 0):
             from ase.md.velocitydistribution import MaxwellBoltzmannDistribution
             MaxwellBoltzmannDistribution(atoms, temperature_K=temperature)
     else:
