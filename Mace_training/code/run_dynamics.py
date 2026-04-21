@@ -90,8 +90,8 @@ def run_dynamics(
         """Callback to save each step with forces."""
         # Get forces (negative gradients)
         forces = atoms.get_forces()
-        # Store in atoms object info for writing
-        atoms.info['forces'] = forces
+        # Store forces in arrays (not info) to avoid comparison issues
+        atoms.arrays['forces'] = forces
         trajectory.append(atoms.copy())
 
     # Attach callback
@@ -109,9 +109,9 @@ def run_dynamics(
     # Write as extended XYZ with forces as additional columns
     # ASE's write will include forces if present in atoms.arrays
     for i, frame in enumerate(trajectory):
-        frame.arrays['fx'] = frame.info['forces'][:, 0]
-        frame.arrays['fy'] = frame.info['forces'][:, 1]
-        frame.arrays['fz'] = frame.info['forces'][:, 2]
+        frame.arrays['fx'] = frame.arrays['forces'][:, 0]
+        frame.arrays['fy'] = frame.arrays['forces'][:, 1]
+        frame.arrays['fz'] = frame.arrays['forces'][:, 2]
 
     # Write all frames
     write(output_xyz, trajectory, format='extxyz')
