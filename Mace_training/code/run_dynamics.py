@@ -11,6 +11,7 @@ import os
 import sys
 from pathlib import Path
 
+import numpy as np
 import torch
 from ase import Atoms
 from ase.io import read, write
@@ -45,6 +46,10 @@ def run_dynamics(
     atoms = read(input_xyz)
     print(f"Loaded structure with {len(atoms)} atoms")
 
+    # Set charge and spin for the UMA calculator (avoids warnings and potential errors)
+    atoms.info['charge'] = 0
+    atoms.info['spin'] = 1
+
     # Set up the UMA calculator from Fairchem
     # Uses HuggingFace API token from environment
     device = "cuda" if torch.cuda.is_available() else "cpu"
@@ -70,7 +75,6 @@ def run_dynamics(
         # Velocity Verlet for NVE ensemble
         dyn = VelocityVerlet(atoms, timestep=timestep_seconds)
         # Set initial velocities if needed
-        import numpy as np
         ke = atoms.get_kinetic_energy()
         if np.allclose(ke, 0):
             from ase.md.velocitydistribution import MaxwellBoltzmannDistribution
