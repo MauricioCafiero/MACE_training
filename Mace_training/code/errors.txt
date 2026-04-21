@@ -1,5 +1,4 @@
-WARNING:root:task_name='omol' detected, but charge is not set in atoms.info. Defaulting to charge=0. Ensure charge is an integer representing the total charge on the system and is within the range -100 to 100.
-WARNING:root:task_name='omol' detected, but spin multiplicity is not set in atoms.info. Defaulting to spin=1. Ensure spin is an integer representing the spin multiplicity from 0 to 100.
+Loaded structure with 9 atoms
 Initial energy: -4218.4497 eV
 /usr/local/python/3.12.1/lib/python3.12/site-packages/ase/md/langevin.py:110: FutureWarning: The implementation of `fixcm=True` in `Langevin` does not strictly sample the correct NVT distributions. The deviations are typically small for large systems but can be more pronounced for small systems. Use `fixcm=False` together with `ase.constraints.FixCom`. `fixcm` is deprecated since ASE 3.28.0 and will be removed in a future release.
   warnings.warn(msg, FutureWarning)
